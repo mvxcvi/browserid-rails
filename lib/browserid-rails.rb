@@ -1,6 +1,6 @@
-require "persona-rails/version"
+require "browserid-rails/version"
 
-module Persona
+module BrowserID
   module Rails
     # Your code goes here...
   end

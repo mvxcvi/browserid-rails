@@ -1,12 +1,16 @@
-# Persona::Rails
+# BrowserID::Rails
 
-TODO: Write a gem description
+This gem provides a simple authentication structure to a Rails application
+based on Mozilla's BrowserID protocol and Persona service. Users are uniquely
+authenticated by email address using public-key cryptography. The advantage of
+this is that the rails application does not need to worry about storing or
+securing user passwords.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'persona-rails'
+    gem 'browserid-rails'
 
 And then execute:
 
@@ -14,7 +18,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install persona-rails
+    $ gem install browserid-rails
 
 ## Usage
 
