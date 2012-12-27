@@ -79,6 +79,8 @@ module BrowserID
         expires = authentication['expires'] && Time.at(authentication['expires'].to_i/1000.0)
         raise "Persona assertion expired at #{expires}" if expires < Time.now
 
+        logger.info "Verified assertion for #{authentication['email']} issued by #{authentication['issuer']}"
+
         authentication['email']
       end
     end

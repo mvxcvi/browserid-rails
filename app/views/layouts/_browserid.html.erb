@@ -1,0 +1,8 @@
+<script src="https://login.persona.org/include.js"></script>
+<script type="text/javascript">
+  <% if browserid_email %>
+    browserid.setup("<%= browserid_email %>");
+  <% else %>
+    browserid.setup();
+  <% end %>
+</script>

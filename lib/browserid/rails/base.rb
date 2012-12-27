@@ -1,7 +1,7 @@
 module BrowserID
   module Rails
     # Public: Base module for inclusion into a controller. This module includes
-    # methods for dealing with Persona user authentication. There must be a
+    # methods for dealing with BrowserID user authentication. There must be a
     # `find_user_by_email` method which looks up a user by email address.
     module Base
       # Internal: Modifies the controller this module is included in to provide
@@ -9,7 +9,7 @@ module BrowserID
       #
       # base - The Class the module is being included in.
       def self.included(base)
-        base.send :helper_method, :persona_email, :current_user, :authenticated?
+        base.send :helper_method, :browserid_email, :current_user, :authenticated?
       end
 
       private
@@ -18,22 +18,22 @@ module BrowserID
       # The address is saved in the client's session.
       #
       # email - The String email address to consider authenticated.
-      def login_persona(email)
-        session[:persona_email] = email
+      def login_browserid(email)
+        session[:browserid_email] = email
       end
 
       # Public: Clears the saved email address for the currently-authenticated
-      # user. It is important to note that this does not remove the Persona
+      # user. It is important to note that this does not remove the BrowserID
       # assertion in the client's browser.
-      def logout_persona
-        session[:persona_email] = nil
+      def logout_browserid
+        session[:browserid_email] = nil
       end
 
       # Public: Gets the email address of the currently-authenticated user.
       #
       # Returns the authenticated email address String.
-      def persona_email
-        session[:persona_email]
+      def browserid_email
+        session[:browserid_email]
       end
 
       # Public: Retrieves the user for the currently-authenticated email address.
@@ -42,7 +42,7 @@ module BrowserID
       #
       # Returns the current authenticated user, or nil if no user exists.
       def current_user
-        @current_user ||= find_user_by_email(persona_email) if persona_email
+        @current_user ||= find_user_by_email(browserid_email) if browserid_email
       end
 
       # Public: Determines whether the current client is authenticated as a

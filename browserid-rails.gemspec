@@ -9,12 +9,12 @@ Gem::Specification.new do |gem|
   gem.homepage      = ""
 
   #gem.files         = `git ls-files`.split($\)
-  gem.files         = Dir["{lib,vendor}/**/*"] + ["LICENSE", "README.md"]
+  gem.files         = Dir["{app,lib,vendor}/**/*"] + ["LICENSE", "README.md"]
   gem.test_files    = gem.files.grep(%r{^spec/})
   gem.name          = "browserid-rails"
   gem.require_paths = ["lib"]
   gem.version       = BrowserID::Rails::VERSION
 
-  gem.add_development_dependency 'railties', '~> 3.1'
-  gem.add_development_dependency 'rspec',    '~> 2.6'
+  gem.add_dependency 'railties', '~> 3.1'
+  #gem.add_development_dependency 'rspec', '~> 2.6'
 end

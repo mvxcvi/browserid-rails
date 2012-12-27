@@ -1,7 +1,6 @@
 # BrowserID javascript functions
 
 @browserid = browserid =
-
   # Public: Path used to verify browserID authentication assertions. Assertions
   # are POSTed to this path.
   loginPath: '/login'
@@ -34,17 +33,18 @@
   # Public: Watches the authentication state and takes action when the user
   # logs in or logs out. This method MUST be called on every page of the
   # application.
-  watch: (currentUser = null) ->
+  setup: (currentUser = null) ->
     navigator.id.watch
       loggedInUser: currentUser
-      onlogin: (assertion) ->
+      onlogin: (assertion) =>
+        alert("@loginPath: #{@loginPath}")
         $.ajax
           type: 'POST'
           url: @loginPath
           data: { assertion: assertion }
           success: @onLogin
           error: @onLoginError
-      onlogout: ->
+      onlogout: =>
         $.ajax
           type: 'POST'
           url: @logoutPath
