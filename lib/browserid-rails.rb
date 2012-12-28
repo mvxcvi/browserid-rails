@@ -15,7 +15,7 @@ module BrowserID
         config.browserid.user_model = 'User'
         config.browserid.email_field = 'email'
         config.browserid.verifier = :persona
-        # config.browserid.audience should be set by the application
+        config.browserid.audience = "http://localhost:3000"
       end
 
       initializer "browserid-rails.extend" do |app|

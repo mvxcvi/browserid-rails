@@ -30,12 +30,15 @@ module BrowserID
       # Public: Verifies the given BrowserID assertion. If successful, this
       # sets the authenticated email as the logged-in user.
       #
-      # Returns the authenticated email on success.
-      # Raises an exception on failure.
+      # Returns true on success or false on failure.
       def verify_browserid(assertion)
         email, issuer = browserid_config.verifier.verify(assertion)
         logger.info "Verified BrowserID assertion for #{email} issued by #{issuer}"
         login_browserid email
+        true
+      rescue StandardError => e # TODO: distinguish verification failures from invalid assertions
+        logger.info "Failed to verify BrowserID assertion: #{e.message}"
+        false
       end
 
       # Public: Sets the given email address as the currently-authenticated user.
