@@ -37,7 +37,6 @@
     navigator.id.watch
       loggedInUser: currentUser
       onlogin: (assertion) =>
-        alert("@loginPath: #{@loginPath}")
         $.ajax
           type: 'POST'
           url: @loginPath
