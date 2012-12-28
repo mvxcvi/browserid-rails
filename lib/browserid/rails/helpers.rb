@@ -12,16 +12,22 @@ module BrowserID
       # assertion from the BrowserID javascript code.
       #
       # text - String to use as link text (default: 'Login').
-      def login_link(text="Login")
-        link_to text, '#', class: :browserid_login
+      # path - String path to link to. If not provided, the `login_path` helper
+      #        will be used if it exists. Otherwise, the link will be to '#'.
+      def login_link(text="Login", path=nil)
+        target = path || respond_to?(:login_path) && login_path || '#'
+        link_to text, target, class: :browserid_login
       end
 
       # Public: Renders a logout link which will clear the current BrowserID
       # authentication status.
       #
       # text - String to use as link text (default: 'Logout').
-      def logout_link(text="Logout")
-        link_to text, '#', class: :browserid_logout
+      # path - String path to link to. If not provided, the `logout_path` helper
+      #        will be used if it exists. Otherwise, the link will be to '#'.
+      def logout_link(text="Logout", path=nil)
+        target = path || respond_to?(:logout_path) && logout_path || '#'
+        link_to text, target, class: :browserid_logout
       end
     end
   end
