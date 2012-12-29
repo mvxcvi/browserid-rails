@@ -45,7 +45,8 @@ module BrowserID
         if assertion.blank?
           head :bad_request
         else
-          audience = browserid_config.audience || request.host_with_port
+          audience = browserid_config.audience
+          audience ||= "%s%s:%d" % [request.protocol, request.host, request.port]
           email, issuer = browserid_config.verifier.verify(assertion, audience)
           logger.info "Verified BrowserID assertion for #{email} issued by #{issuer} on #{audience}"
           login_browserid email
