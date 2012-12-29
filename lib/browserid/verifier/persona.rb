@@ -72,8 +72,8 @@ module BrowserID
         #   "issuer": "persona.mozilla.com"
         # }
 
-        audience = authentication['audience']
-        raise "Persona assertion audience '#{audience}' does not match verifier audience #{@audience}" unless audience == @audience
+        auth_audience = authentication['audience']
+        raise "Persona assertion audience '#{auth_audience}' does not match verifier audience '#{audience}'" unless auth_audience == audience
 
         expires = authentication['expires'] && Time.at(authentication['expires'].to_i/1000.0)
         raise "Persona assertion expired at #{expires}" if expires && expires < Time.now
