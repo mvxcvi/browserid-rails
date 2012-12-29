@@ -11,24 +11,24 @@
 
   # Public: This method is called when a user successfully authenticates. By
   # default, it reloads the current page.
-  onLogin: (res, status, xhr) ->
-    alert("Successful login - refresh the page")
+  onLogin: (data, status, xhr) ->
+    alert("Login result: #{status} #{data}")
     #window.location.reload()
 
   # Public: This method is called when a user fails to authenticate.
   onLoginError: (xhr, status, err) ->
-    alert("Login failure " + res)
+    alert("Login #{err} - #{xhr.responseText}")
 
   # Public: This method is called when a user clears their authentication. By
   # default, it reloads the current page.
-  onLogout: (res, status, xhr) ->
-    alert("Successful logout - refresh the page")
+  onLogout: (data, status, xhr) ->
+    alert("Logout result: #{status} #{data}")
     #window.location.reload()
 
   # Public: This method is called when a user fails to clear their
   # authentication.
   onLogoutError: (xhr, status, err) ->
-    alert("Logout failure " + res)
+    alert("Logout #{err} - #{xhr.responseText}")
 
   # Public: Watches the authentication state and takes action when the user
   # logs in or logs out. This method MUST be called on every page of the
