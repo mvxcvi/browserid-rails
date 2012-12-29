@@ -1,8 +1,12 @@
 <script src="https://login.persona.org/include.js"></script>
 <script type="text/javascript">
-  <% if browserid_email %>
-    browserid.setup("<%= browserid_email %>");
-  <% else %>
-    browserid.setup();
-  <% end %>
+<% if options[:login_path] %>browserid.loginPath = "<%= options[:login_path] %>";<% end %>
+<% if options[:logout_path] %>browserid.logoutPath = "<%= options[:logout_path] %>";<% end %>
+<% if options[:debug] %>browserid.debug = true;<% end %>
+<%= yield :browserid_setup %>
+<% if browserid_email %>
+browserid.setup("<%= browserid_email %>");
+<% else %>
+browserid.setup();
+<% end %>
 </script>

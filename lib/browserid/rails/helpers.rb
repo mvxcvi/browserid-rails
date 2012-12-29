@@ -4,8 +4,36 @@ module BrowserID
     module Helpers
       # Public: Renders a layout partial which initializes the BrowserID
       # system. This should be called in the head of the application layout.
-      def setup_browserid
-        render 'layouts/browserid'
+      #
+      # options - Hash used to adjust the browserid asset setup (default: {}).
+      #           :login_path  - String giving the path to POST assertions to
+      #                          for verification.
+      #           :logout_path - String giving the path to POST logout
+      #                          notifications to.
+      #           :debug       - Boolean determining whether the browserid
+      #                          javascript will refresh the page or show an
+      #                          alert dialog.
+      # block   - An optional block which can be used to provide additional
+      #           content to be rendered inside the browserid setup script tag.
+      #
+      # Examples
+      #
+      #   <!-- Perform basic BrowserID setup in the head section -->
+      #   <%= setup_browserid %>
+      #
+      #   <!-- Setup BrowserID with alert debugging -->
+      #   <%= setup_browserid debug: true %>
+      #
+      #   <!-- Setup BrowserID with a custom handler -->
+      #   <%= setup_browserid do %>
+      #     browserid.onLogin = function (data, status, xhr) {
+      #       // ...
+      #     }
+      #   <% end %>
+      #
+      def setup_browserid(options={}, &block)
+        content_for :browserid_setup, capture(&block) if block_given?
+        render 'layouts/browserid', options: options
       end
 
       # Public: Renders a login link which will request a new authentication
