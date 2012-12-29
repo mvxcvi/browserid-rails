@@ -42,10 +42,11 @@ needed. All configuration is placed under `config.browserid`.
   verification code. Alternately, this configuration option may be set to any
   class which responds to `#verify(assertion)` with the verified email and
   identity provider on success (or raises an error on failure).
-* `audience` - Finally, the BrowserID audience should be set to a partial URI
+* `audience` - Finally, the BrowserID audience should be set to a URI string
   containing the scheme, authority, and port of the service to authenticate
-  against. This defaults to `"http://localhost:3000"` to match Rails'
-  development server, but in production this MUST be set correctly.
+  against. If this is not set, the host and port of the current request is
+  used. This enables flexible testing in development, but is a security risk
+  in production.
 
 ### Controller Integration
 

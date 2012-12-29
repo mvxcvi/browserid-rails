@@ -15,7 +15,7 @@ module BrowserID
         config.browserid.user_model = 'User'
         config.browserid.email_field = 'email'
         config.browserid.verifier = :persona
-        config.browserid.audience = "http://localhost:3000"
+        # config.browserid.audience should only be set in production
       end
 
       initializer "browserid-rails.extend" do |app|
@@ -28,7 +28,7 @@ module BrowserID
 
         # Replace type symbol with constructed verifier.
         if cfg.verifier == :persona
-          cfg.verifier = BrowserID::Verifier::Persona.new(cfg.audience)
+          cfg.verifier = BrowserID::Verifier::Persona.new
         elsif cfg.verifier == :local
           raise "Local BrowserID verification is not supported yet" # TODO
         elsif !cfg.verifier.respond_to?(:verify)
