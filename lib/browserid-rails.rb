@@ -9,11 +9,12 @@ module BrowserID
     # be included when the gem is added as a dependency.
     class Engine < ::Rails::Engine
       config.before_configuration do
-        BrowserIDConfig = Struct.new :user_model, :email_field, :verifier, :audience
+        BrowserIDConfig = Struct.new :user_model, :email_field, :session_variable, :verifier, :audience
 
         config.browserid = BrowserIDConfig.new
         config.browserid.user_model = 'User'
         config.browserid.email_field = 'email'
+        config.browserid.session_variable = :browserid_email
         config.browserid.verifier = :persona
         # config.browserid.audience should only be set in production
       end

@@ -62,14 +62,14 @@ module BrowserID
       #
       # email - The String email address to consider authenticated.
       def login_browserid(email)
-        session[:browserid_email] = email
+        session[browserid_config.session_variable] = email
       end
 
       # Public: Clears the saved email address for the currently-authenticated
       # user. It is important to note that this does not remove the BrowserID
       # assertion in the client's browser.
       def logout_browserid
-        session[:browserid_email] = nil
+        session[browserid_config.session_variable] = nil
       end
 
 
@@ -80,7 +80,7 @@ module BrowserID
       #
       # Returns the authenticated email address String.
       def browserid_email
-        session[:browserid_email]
+        session[browserid_config.session_variable]
       end
 
       # Public: Retrieves the user for the authenticated email address. This

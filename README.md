@@ -28,25 +28,29 @@ integration, and view helpers.
 
 ### Configuration
 
-There are a number of configuration options available. The gem makes a number
-of default assumptions about your application, which may be overridden as
-needed. All configuration is placed under `config.browserid`.
+There are several configuration options available. There are a number of default
+assumptions about the application, which may be overridden as needed.
+Configuration settings are properties of `config.browserid`.
 
 * `user_model` - The name of the ActiveModel class for application users.
   The default is `"User"`.
 * `email_field` - The name of the attribute on the user model which contains
   the user's email. The default is `"email"`.
+* `session_variable` - The location the authenticated email is stored in the
+  client's session. The default is `:browserid_email`.
 * `verifier` - The type of verifier to use to authenticate client BrowserID
   assertions. The default is `:persona`, which sends the request to Mozilla's
   Persona verification service. In the future, `:local` will enable local
   verification code. Alternately, this configuration option may be set to any
   class which responds to `#verify(assertion)` with the verified email and
-  identity provider on success (or raises an error on failure).
-* `audience` - Finally, the BrowserID audience should be set to a URI string
-  containing the scheme, authority, and port of the service to authenticate
-  against. If this is not set, the host and port of the current request is
-  used. This enables flexible testing in development, but is a security risk
-  in production.
+  identity provider on success and raises an error on failure.
+* `audience` - The BrowserID audience to authenticate to. This should consist
+  of a URI string containing the scheme (protocol), authority, and port of the
+  service (e.g., `"https://app.example.com:443"`). By default, the audience is
+  not hardcoded and the properties of the request object are used to construct
+  it dynamically. This gives greater flexibility while developing, but is also
+  a minor security risk. In production, this should be configured to a fixed
+  value.
 
 ### Controller Integration
 
