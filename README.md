@@ -23,8 +23,8 @@ Or install it yourself as:
 ## Usage
 
 To use this gem once it is installed, it must be integrated into your Rails
-application. The following sections cover configuration, controller
-integration, and view helpers.
+application. The following sections cover the gem configuration, controller
+integration, and view integration.
 
 ### Configuration
 
@@ -54,22 +54,75 @@ Configuration settings are properties of `config.browserid`.
 
 ### Controller Integration
 
-Controllers should use the `verify_browserid(assertion)` method, which will use
-the configured verifier to authenticate the client's email address. This method
-also sets the currently authenticated email in the client's session with the
-`login_browserid(email)` method. On logout, the controller should call
-`logout_browserid` to clear the email from the client's session.
+The `BrowserID::Rails::Base` module makes several controller methods available
+to interact with the authentication system. To access information, use one of:
 
-TODO: further document controller integration
-TODO: write generator to create routes and session controller?
+* `browserid_email` - Returns the BrowserID-authenticated email address, if any.
+* `current_user` - Retrieves the model for the currently authenticated user, if
+  there is an authenticated email and a matching user exists.
+* `authenticated?` - Returns true if there is a current user.
 
-### View Helpers
+These methods are also available in views as helpers.
 
-TODO: document view helpers
-TODO: include Persona branding assets?
+To control authentication, the app should have a `SessionsController` which
+connects the in-browser authentication code to the server. The gem provides
+these methods:
 
-* `login_link`
-* `logout_link`
+* `login_browserid` - Sets the given email address as the authenticated user.
+* `logout_browserid` - Clears the current authenticated email.
+* `verify_browserid` - Uses the configured verifier to confirm a BrowserID
+  assertion is correct for the audience.
+* `respond_to_browserid` - Wraps `verify_browserid` in logging and error
+  handling logic and generates controller responses to a `POST`ed assertion.
+
+Implementing the required methods for `SessionsController` is straightforward:
+
+    # POST /login
+    def create
+      respond_to_browserid
+    end
+
+    # POST /logout
+    def destroy
+      logout_browserid
+      head :ok
+    end
+
+TODO: write generator to create routes and session controller
+
+### Layout Integration
+
+The BrowserID javascript library needs to be loaded on your application pages.
+There are two steps to accomplish this:
+
+First, the coffeescript asset file needs to be loaded. In the
+`app/assets/javascripts/application.js` manifest, add the following line:
+
+    //= require browserid
+
+Second, the scripts need to be setup in your pages' `<head>` section. The
+`setup_browserid` helper method takes care of this for you and gives a couple
+of ways to control its behavior:
+
+    <!-- Perform basic BrowserID setup in the head section -->
+    <%= setup_browserid %>
+
+    <!-- Setup BrowserID with alert debugging -->
+    <%= setup_browserid debug: true %>
+
+    <!-- Setup BrowserID with a custom handler -->
+    <%= setup_browserid do %>
+      browserid.onLogin = function (data, status, xhr) {
+        // ...
+      }
+    <% end %>
+
+Once that's accomplished, the app is ready to use BrowserID for authentication.
+To add login and logout links to the site, use the `login_link` and
+`logout_link` helpers. These accept optional link text as a parameter and will
+use `login_path` and `logout_path` URL helpers if available.
+
+TODO: include Persona branding assets
 
 ## Contributing
 

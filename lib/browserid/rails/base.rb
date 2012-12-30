@@ -27,36 +27,6 @@ module BrowserID
 
       ##### AUTHENTICATION METHODS #####
 
-      # Public: Handles a POST-ed BrowserID assertion, responding appropriately
-      # to the request. If successful, this logs-in the authenticated email and
-      # returns an OK status. If unsuccessful, it returns FORBIDDEN and an
-      # error message in the response body.
-      #
-      # Returns nothing.
-      #
-      # Examples
-      #
-      #   # POST /login
-      #   def create
-      #     verify_browserid params[:assertion]
-      #   end
-      #
-      def verify_browserid(assertion)
-        if assertion.blank?
-          head :bad_request
-        else
-          audience = browserid_config.audience
-          audience ||= "%s%s:%d" % [request.protocol, request.host, request.port]
-          email, issuer = browserid_config.verifier.verify(assertion, audience)
-          logger.info "Verified BrowserID assertion for #{email} issued by #{issuer} on #{audience}"
-          login_browserid email
-          head :ok
-        end
-      rescue StandardError => e
-        logger.warn "Failed to verify BrowserID assertion: #{e.message}"
-        render status: :forbidden, text: e.message
-      end
-
       # Public: Sets the given email address as the currently-authenticated user.
       # The address is saved in the client's session.
       #
@@ -70,6 +40,52 @@ module BrowserID
       # assertion in the client's browser.
       def logout_browserid
         session[browserid_config.session_variable] = nil
+      end
+
+      # Public: Uses the configured verifier to check that a provided assertion
+      # is correct for the site audience.
+      #
+      # Returns the verified email, identity issuer, and audience on success.
+      # Raises an error with a failure message if the client was not
+      # successfully authenticated.
+      #
+      # Examples
+      #
+      #   verify_browserid(assertion)
+      #   # => "user@example.com", "persona.mozilla.com", "https://app.example.com:443"
+      #
+      def verify_browserid(assertion)
+        audience = browserid_config.audience
+        audience ||= "%s%s:%d" % [request.protocol, request.host, request.port]
+        browserid_config.verifier.verify(assertion, audience)
+      end
+
+      # Public: Handles a POST-ed BrowserID assertion, responding appropriately
+      # to the request. If successful, this logs-in the authenticated email and
+      # returns an OK status. If unsuccessful, it returns FORBIDDEN and an
+      # error message in the response body.
+      #
+      # Returns nothing.
+      #
+      # Examples
+      #
+      #   # POST /login
+      #   def create
+      #     respond_to_browserid
+      #   end
+      #
+      def respond_to_browserid
+        if params[:assertion].blank?
+          head :bad_request
+        else
+          email, issuer, audience = verify_browserid params[:assertion]
+          logger.info "Verified BrowserID assertion for #{email} issued by #{issuer} on #{audience}"
+          login_browserid email
+          head :ok
+        end
+      rescue StandardError => e
+        logger.warn "Failed to verify BrowserID assertion: #{e.message}"
+        render status: :forbidden, text: e.message
       end
 
 
