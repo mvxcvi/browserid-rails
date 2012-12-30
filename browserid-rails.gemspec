@@ -3,12 +3,11 @@ require File.expand_path('../lib/browserid/rails/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Greg Look"]
-  gem.email         = ["greg@greg-look.net"]
+  gem.email         = ["greg@mvxcvi.com"]
   gem.summary       = %q{Rails authentication framework using Mozilla Persona and the BrowserID protocol.}
   #gem.description   = %q{Rails authentication framework using Mozilla Persona/BrowserID}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/mvxcvi/browserid-rails"
 
-  #gem.files         = `git ls-files`.split($\)
   gem.files         = Dir["{app,lib,vendor}/**/*"] + ["LICENSE", "README.md"]
   gem.test_files    = gem.files.grep(%r{^spec/})
   gem.name          = "browserid-rails"

@@ -68,12 +68,12 @@ To control authentication, the app should have a `SessionsController` which
 connects the in-browser authentication code to the server. The gem provides
 these methods:
 
-* `login_browserid` - Sets the given email address as the authenticated user.
+* `login_browserid` - Sets the given string as the authenticated email.
 * `logout_browserid` - Clears the current authenticated email.
 * `verify_browserid` - Uses the configured verifier to confirm a BrowserID
-  assertion is correct for the audience.
+  assertion is correct for the service audience.
 * `respond_to_browserid` - Wraps `verify_browserid` in logging and error
-  handling logic and generates controller responses to a `POST`ed assertion.
+  handling logic and generates controller responses to a `POST` assertion.
 
 Implementing the required methods for `SessionsController` is straightforward:
 
@@ -119,8 +119,16 @@ of ways to control its behavior:
 
 Once that's accomplished, the app is ready to use BrowserID for authentication.
 To add login and logout links to the site, use the `login_link` and
-`logout_link` helpers. These accept optional link text as a parameter and will
-use `login_path` and `logout_path` URL helpers if available.
+`logout_link` helpers. These accept optional link text and targets as parameters:
+
+    <%= login_link "Login with Persona" %>
+
+    <%= login_link "Login", auth_path %>
+
+If the path is not provided, the link helpers will use `login_path` and
+`logout_path` if they are available, otherwise the link targets will be `#`.
+The coffeescript assets add on-click handlers to the links which trigger the
+Persona code to request new assertions or destroy existing ones.
 
 TODO: include Persona branding assets
 
