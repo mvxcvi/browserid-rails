@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'simplecov'
   #gem.add_development_dependency 'factory_girl[_rails]'
   #gem.add_development_dependency 'faker'
+  gem.add_development_dependency 'tzinfo' # required for active-support
 
   gem.add_runtime_dependency 'jquery-rails'
 end

@@ -1,0 +1,2 @@
+--format progress --color
+--format html --out doc/spec-report.html
