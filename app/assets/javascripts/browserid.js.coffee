@@ -25,26 +25,26 @@
   # default, it reloads the current page.
   onLogin: (data, status, xhr) ->
     if @debug
-      alert("Login result: #{status} #{data}")
+      alert("Login: #{status}\n#{data}")
     else
       window.location.reload()
 
   # Public: This method is called when a user fails to authenticate.
   onLoginError: (xhr, status, err) ->
-    alert("Login #{err} - #{xhr.responseText}")
+    alert("Login: #{status} #{err}\n#{xhr.responseText}")
 
   # Public: This method is called when a user clears their authentication. By
   # default, it reloads the current page.
   onLogout: (data, status, xhr) ->
     if @debug
-      alert("Logout result: #{status} #{data}")
+      alert("Logout: #{status}\n#{data}")
     else
       window.location.reload()
 
   # Public: This method is called when a user fails to clear their
   # authentication.
   onLogoutError: (xhr, status, err) ->
-    alert("Logout #{err} - #{xhr.responseText}")
+    alert("Logout: #{status} #{err}\n#{xhr.responseText}")
 
 
   ### INITIALIZATION ###
