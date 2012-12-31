@@ -52,12 +52,12 @@ Configuration settings are properties of `config.browserid`.
   a minor security risk. In production, this should be configured to a fixed
   value.
 
-Additionally, there are two sub-structures for configuring the link helpers
-`login_link` and `logout_link`. They have the following properties:
+Additionally, there are two sub-structures `login` and `logout` for configuring
+the associated paths and default link text. They have the following properties:
 
-* `text` - The default text to give to the generated link.
-* `target` - The target to give the generated link. Defaults to a URL fragment
-  (`'#'`).
+* `text` - The default text to give login and logout links.
+* `path` - The target to give links and the path to `POST` authentication
+           requests to. Defaults to `"/login"` and `"/logout"` respectively.
 
 ### Controller Integration
 

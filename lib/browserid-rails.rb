@@ -10,8 +10,8 @@ module BrowserID
     class Engine < ::Rails::Engine
       # Initialize the engine configuration.
       config.before_configuration do
-        BrowserIDConfig = Struct.new :user_model, :email_field, :session_variable, :verifier, :audience, :login_link, :logout_link
-        BrowserIDLinkConfig = Struct.new :text, :target
+        BrowserIDConfig = Struct.new :user_model, :email_field, :session_variable, :verifier, :audience, :login, :logout
+        BrowserIDLinkConfig = Struct.new :text, :path
 
         config.browserid = BrowserIDConfig.new.tap do |cfg|
           cfg.user_model = 'User'
@@ -20,14 +20,14 @@ module BrowserID
           cfg.verifier = :persona
           # audience should only be set in production
 
-          cfg.login_link = BrowserIDLinkConfig.new.tap do |link|
+          cfg.login = BrowserIDLinkConfig.new.tap do |link|
             link.text = "Login"
-            link.target = '#'
+            link.path = '/login'
           end
 
-          cfg.logout_link = BrowserIDLinkConfig.new.tap do |link|
+          cfg.logout = BrowserIDLinkConfig.new.tap do |link|
             link.text = "Logout"
-            link.target = '#'
+            link.path = '/logout'
           end
         end
       end

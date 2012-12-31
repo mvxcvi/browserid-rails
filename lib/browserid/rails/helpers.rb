@@ -7,9 +7,11 @@ module BrowserID
       #
       # options - Hash used to adjust the browserid asset setup (default: {}).
       #           :login_path  - String giving the path to POST assertions to
-      #                          for verification.
+      #                          for verification. Defaults to the configured
+      #                          `browserid.login.path`.
       #           :logout_path - String giving the path to POST logout
-      #                          notifications to.
+      #                          notifications to. Defaults to the configured
+      #                          `browserid.logout.path`.
       #           :debug       - Boolean determining whether the browserid
       #                          javascript will refresh the page or show an
       #                          alert dialog.
@@ -32,31 +34,32 @@ module BrowserID
       #   <% end %>
       #
       def setup_browserid(options={}, &block)
+        defaults = { login_path: browserid_config.login.path, logout_path: browserid_config.logout.path }
         content_for :browserid_setup, capture(&block) if block_given?
-        render 'layouts/browserid', options: options
+        render 'layouts/browserid', options: defaults.merge(options)
       end
 
       # Public: Renders a login link which will request a new authentication
       # assertion from the BrowserID javascript code. The default link text is
-      # configurable with `config.browserid.login_link.text`. The link target is
-      # similarly configurable with `config.browserid.login_link.target`.
+      # configurable with `config.browserid.login.text`. The link target is
+      # similarly configurable with `config.browserid.login.path`.
       #
       # text - Optional String to use as link text (default: configured value).
       def login_link(text=nil)
-        text ||= browserid_config.login_link.text
-        target = browserid_config.login_link.target
+        text ||= browserid_config.login.text
+        target = browserid_config.login.path || '#'
         link_to text, target, class: :browserid_login
       end
 
       # Public: Renders a logout link which will clear the current BrowserID
       # authentication status. The default link text is configurable with
-      # `config.browserid.logout_link.text`. The link target is similarly
-      # configurable with `config.browserid.logout_link.target`.
+      # `config.browserid.logout.text`. The link target is similarly
+      # configurable with `config.browserid.logout.path`.
       #
       # text - Optional String to use as link text (default: configured value).
       def logout_link(text=nil)
-        text ||= browserid_config.logout_link.text
-        target = browserid_config.logout_link.target
+        text ||= browserid_config.logout.text
+        target = browserid_config.logout.path || '#'
         link_to text, target, class: :browserid_logout
       end
     end
