@@ -7,8 +7,3 @@ shared_context "authenticated user" do
     vars.update browserid_config.session_variable => authenticated_email
   end
 end
-
-# User model stub.
-class User
-  attr_accessor :email
-end
