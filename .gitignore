@@ -1,17 +1,17 @@
-*.gem
-*.rbc
+# vim: ft=conf
+
+# Ignore bundler config
 .bundle
-.config
-.yardoc
 Gemfile.lock
-InstalledFiles
-_yardoc
-coverage
-doc/
-lib/bundler/man
+
+# Ignore compiled gems
 pkg
-rdoc
-spec/reports
-test/tmp
-test/version_tmp
+*.gem
+
+# Ignore generated documentation
+doc/
+
+# Ignore temporary files
 tmp
+*.log
+*.swp
