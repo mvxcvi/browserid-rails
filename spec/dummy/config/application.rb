@@ -7,12 +7,9 @@ require "action_controller/railtie"
 #require "active_resource/railtie"
 #require "sprockets/railtie"
 
-#Bundler.require
-#require "browserid-rails"
-
 module Dummy
   class Application < Rails::Application
-    # application configuration goes here
+    # application configuration
   end
 end
 
