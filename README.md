@@ -52,6 +52,13 @@ Configuration settings are properties of `config.browserid`.
   a minor security risk. In production, this should be configured to a fixed
   value.
 
+Additionally, there are two sub-structures for configuring the link helpers
+`login_link` and `logout_link`. They have the following properties:
+
+* `text` - The default text to give to the generated link.
+* `target` - The target to give the generated link. Defaults to a URL fragment
+  (`'#'`).
+
 ### Controller Integration
 
 The `BrowserID::Rails::Base` module makes several controller methods available
@@ -119,15 +126,13 @@ of ways to control its behavior:
 
 Once that's accomplished, the app is ready to use BrowserID for authentication.
 To add login and logout links to the site, use the `login_link` and
-`logout_link` helpers. These accept optional link text and targets as parameters:
+`logout_link` helpers. These accept an optional link text as a parameter:
+
+    <%= logout_link %>
 
     <%= login_link "Login with Persona" %>
 
-    <%= login_link "Login", auth_path %>
-
-If the path is not provided, the link helpers will use `login_path` and
-`logout_path` if they are available, otherwise the link targets will be `#`.
-The coffeescript assets add on-click handlers to the links which trigger the
+The coffeescript asset adds on-click handlers to the links which trigger the
 Persona code to request new assertions or destroy existing ones.
 
 TODO: include Persona branding assets

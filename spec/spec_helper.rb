@@ -13,10 +13,8 @@ SimpleCov.start do
 
   add_filter '/spec/'
 
-  # filter out files less than 5 lines long
-  #add_filter { |file| file.lines.count < 5 }
-
-  add_group "Library",   'lib'
+  add_group "Rails" do |file| file.filename =~ %r{lib/browserid[-/]rails} end
+  add_group "Verifiers", 'lib/browserid/verifier'
 end
 
 # Load rails environment and rspec framework.
@@ -41,3 +39,8 @@ end
 
 # Load gem code.
 require 'browserid-rails'
+
+# Helper method to access the engine configuration.
+def browserid_config
+  Rails.application.config.browserid
+end

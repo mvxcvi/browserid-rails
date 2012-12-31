@@ -8,22 +8,37 @@ module BrowserID
     # the library methods. The presence of this engine also causes assets to
     # be included when the gem is added as a dependency.
     class Engine < ::Rails::Engine
+      # Initialize the engine configuration.
       config.before_configuration do
-        BrowserIDConfig = Struct.new :user_model, :email_field, :session_variable, :verifier, :audience
+        BrowserIDConfig = Struct.new :user_model, :email_field, :session_variable, :verifier, :audience, :login_link, :logout_link
+        BrowserIDLinkConfig = Struct.new :text, :target
 
-        config.browserid = BrowserIDConfig.new
-        config.browserid.user_model = 'User'
-        config.browserid.email_field = 'email'
-        config.browserid.session_variable = :browserid_email
-        config.browserid.verifier = :persona
-        # config.browserid.audience should only be set in production
+        config.browserid = BrowserIDConfig.new.tap do |cfg|
+          cfg.user_model = 'User'
+          cfg.email_field = 'email'
+          cfg.session_variable = :browserid_email
+          cfg.verifier = :persona
+          # audience should only be set in production
+
+          cfg.login_link = BrowserIDLinkConfig.new.tap do |link|
+            link.text = "Login"
+            link.target = '#'
+          end
+
+          cfg.logout_link = BrowserIDLinkConfig.new.tap do |link|
+            link.text = "Logout"
+            link.target = '#'
+          end
+        end
       end
 
+      # Mix in the controller and view helper methods.
       config.before_initialize do
         ActionController::Base.send :include, BrowserID::Rails::Base
         ActionView::Base.send :include, BrowserID::Rails::Helpers
       end
 
+      # Create the assertion verifier.
       config.after_initialize do
         cfg = config.browserid
 

@@ -37,24 +37,26 @@ module BrowserID
       end
 
       # Public: Renders a login link which will request a new authentication
-      # assertion from the BrowserID javascript code.
+      # assertion from the BrowserID javascript code. The default link text is
+      # configurable with `config.browserid.login_link.text`. The link target is
+      # similarly configurable with `config.browserid.login_link.target`.
       #
-      # text - String to use as link text (default: 'Login').
-      # path - String path to link to. If not provided, the `login_path` helper
-      #        will be used if it exists. Otherwise, the link will be to '#'.
-      def login_link(text="Login", path=nil)
-        target = path || respond_to?(:login_path) && login_path || '#'
+      # text - Optional String to use as link text (default: configured value).
+      def login_link(text=nil)
+        text ||= browserid_config.login_link.text
+        target = browserid_config.login_link.target
         link_to text, target, class: :browserid_login
       end
 
       # Public: Renders a logout link which will clear the current BrowserID
-      # authentication status.
+      # authentication status. The default link text is configurable with
+      # `config.browserid.logout_link.text`. The link target is similarly
+      # configurable with `config.browserid.logout_link.target`.
       #
-      # text - String to use as link text (default: 'Logout').
-      # path - String path to link to. If not provided, the `logout_path` helper
-      #        will be used if it exists. Otherwise, the link will be to '#'.
-      def logout_link(text="Logout", path=nil)
-        target = path || respond_to?(:logout_path) && logout_path || '#'
+      # text - Optional String to use as link text (default: configured value).
+      def logout_link(text=nil)
+        text ||= browserid_config.logout_link.text
+        target = browserid_config.logout_link.target
         link_to text, target, class: :browserid_logout
       end
     end
