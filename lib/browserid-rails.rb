@@ -19,7 +19,7 @@ module BrowserID
         # config.browserid.audience should only be set in production
       end
 
-      initializer "browserid-rails.extend" do |app|
+      config.before_initialize do
         ActionController::Base.send :include, BrowserID::Rails::Base
         ActionView::Base.send :include, BrowserID::Rails::Helpers
       end
