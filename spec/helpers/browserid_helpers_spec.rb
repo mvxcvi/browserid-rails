@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe BrowserID::Rails::Helpers do
+  include_context "browserid config"
+
   let(:link_regex) { %r{<a([^>]*)>([^<]*)</a>} }
 
   # Extracts the link text from a tag.
@@ -30,9 +32,8 @@ describe BrowserID::Rails::Helpers do
       end
 
       it "is configurable" do
-        config_tx browserid_config.login, :text, "Login with Persona" do
-          text.should eq("Login with Persona")
-        end
+        browserid_config.login.text = "Login with Persona"
+        text.should eq("Login with Persona")
       end
 
       it "can be set with the first argument" do
@@ -45,15 +46,13 @@ describe BrowserID::Rails::Helpers do
       let(:target) { link_attributes(link)['href'] }
 
       it "defaults to URL fragment" do
-        config_tx browserid_config.login, :path, nil do
-          target.should eq('#')
-        end
+        browserid_config.login.path = nil
+        target.should eq('#')
       end
 
       it "is configurable" do
-        config_tx browserid_config.login, :path, "/login/path" do
-          target.should eq("/login/path")
-        end
+        browserid_config.login.path = "/login/path"
+        target.should eq("/login/path")
       end
     end
 
@@ -79,9 +78,8 @@ describe BrowserID::Rails::Helpers do
       end
 
       it "is configurable" do
-        config_tx browserid_config.logout, :text, "Log out of Persona" do
-          text.should eq("Log out of Persona")
-        end
+        browserid_config.logout.text = "Log out of Persona"
+        text.should eq("Log out of Persona")
       end
 
       it "can be set with the first argument" do
@@ -94,15 +92,13 @@ describe BrowserID::Rails::Helpers do
       let(:target) { link_attributes(link)['href'] }
 
       it "defaults to URL fragment" do
-        config_tx browserid_config.logout, :path, nil do
-          target.should eq('#')
-        end
+        browserid_config.logout.path = nil
+        target.should eq('#')
       end
 
       it "is configurable" do
-        config_tx browserid_config.logout, :path, "/logout/path" do
-          target.should eq("/logout/path")
-        end
+        browserid_config.logout.path = "/logout/path"
+        target.should eq("/logout/path")
       end
     end
 
@@ -113,7 +109,9 @@ describe BrowserID::Rails::Helpers do
     end
   end
 
-#  describe '#setup_browserid' do
+  describe '#setup_browserid' do
+#    before { prepend_view_path 'app/views' }
+#
 #    it "includes the Persona javascript shim" do
 #      text = helper.setup_browserid
 #      text.should match %r{<script src="https://login.persona.org/include.js"></script>}
@@ -142,5 +140,5 @@ describe BrowserID::Rails::Helpers do
 #    context "when not authenticated" do
 #      it "calls setup without current user"
 #    end
-#  end
+  end
 end

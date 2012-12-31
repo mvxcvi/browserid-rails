@@ -34,8 +34,8 @@ Configuration settings are properties of `config.browserid`.
 
 * `user_model` - The name of the ActiveModel class for application users.
   The default is `"User"`.
-* `email_field` - The name of the attribute on the user model which contains
-  the user's email. The default is `"email"`.
+* `email_field` - The attribute of the user model which contains the user's
+  email. The default is `:email`.
 * `session_variable` - The location the authenticated email is stored in the
   client's session. The default is `:browserid_email`.
 * `verifier` - The type of verifier to use to authenticate client BrowserID

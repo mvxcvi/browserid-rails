@@ -15,7 +15,7 @@ module BrowserID
 
         config.browserid = BrowserIDConfig.new.tap do |cfg|
           cfg.user_model = 'User'
-          cfg.email_field = 'email'
+          cfg.email_field = :email
           cfg.session_variable = :browserid_email
           cfg.verifier = :persona
           # audience should only be set in production

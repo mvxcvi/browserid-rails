@@ -39,17 +39,3 @@ end
 
 # Load gem code.
 require 'browserid-rails'
-
-# Helper method to access the engine configuration.
-def browserid_config
-  Rails.application.config.browserid
-end
-
-# Helper method to change some configuration state and then reset it after the
-# block completes.
-def config_tx(config, property, value)
-  original = config.send property
-  config.send "#{property}=".intern, value
-  yield
-  config.send "#{property}=".intern, original
-end

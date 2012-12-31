@@ -13,7 +13,7 @@ module BrowserID
       #
       # base - The Class this module is being included in.
       def self.included(base)
-        base.send :helper_method, :browserid_email, :current_user, :authenticated?
+        base.send :helper_method, :browserid_config, :browserid_email, :current_user, :authenticated?
       end
 
       # Internal: Gets the application configuration for this gem.
@@ -21,6 +21,44 @@ module BrowserID
       # Returns the app config structure.
       def browserid_config
         ::Rails.application.config.browserid
+      end
+
+
+
+      ##### HELPER METHODS #####
+
+      # Public: Gets the email address of the currently-authenticated user.
+      #
+      # Returns the authenticated email address String.
+      def browserid_email
+        session[browserid_config.session_variable]
+      end
+
+      # Public: Retrieves the user for the authenticated email address. This
+      # method uses the `browserid.user_model` and `browserid.email_field`
+      # config settings, which default to `User` and `email`.
+      #
+      # Returns the current authenticated user, or nil if no user exists.
+      def current_user
+        if browserid_email.nil?
+          nil
+        elsif @current_user
+          @current_user
+        else
+          config = browserid_config
+          user_model = config.user_model.constantize
+          find_method = "find_by_#{config.email_field}".intern
+
+          @current_user = user_model.send find_method, browserid_email
+        end
+      end
+
+      # Public: Determines whether the current client is authenticated as a
+      # registered User.
+      #
+      # Returns true if the client is authenticated and registered.
+      def authenticated?
+        !current_user.nil?
       end
 
 
@@ -84,46 +122,9 @@ module BrowserID
           head :ok
         end
       rescue StandardError => e
+        # TODO: distinguish between process failures and invalid assertions
         logger.warn "Failed to verify BrowserID assertion: #{e.message}"
         render status: :forbidden, text: e.message
-      end
-
-
-
-      ##### HELPER METHODS #####
-
-      # Public: Gets the email address of the currently-authenticated user.
-      #
-      # Returns the authenticated email address String.
-      def browserid_email
-        session[browserid_config.session_variable]
-      end
-
-      # Public: Retrieves the user for the authenticated email address. This
-      # method uses the `browserid.user_model` and `browserid.email_field`
-      # config settings, which default to `User` and `email`.
-      #
-      # Returns the current authenticated user, or nil if no user exists.
-      def current_user
-        if browserid_email.nil?
-          nil
-        elsif @current_user
-          @current_user
-        else
-          config = browserid_config
-          user_model = config.user_model.constantize
-          find_method = "find_by_#{config.email_field}".intern
-
-          @current_user = user_model.send find_method, browserid_email
-        end
-      end
-
-      # Public: Determines whether the current client is authenticated as a
-      # registered User.
-      #
-      # Returns true if the client is authenticated and registered.
-      def authenticated?
-        !current_user.nil?
       end
     end
   end
