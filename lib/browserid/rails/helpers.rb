@@ -36,7 +36,7 @@ module BrowserID
       def setup_browserid(options={}, &block)
         defaults = { login_path: browserid_config.login.path, logout_path: browserid_config.logout.path }
         content_for :browserid_setup, capture(&block) if block_given?
-        render 'layouts/browserid', options: defaults.merge(options)
+        render 'shared/browserid', options: defaults.merge(options)
       end
 
       # Public: Renders a login link which will request a new authentication
