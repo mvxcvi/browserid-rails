@@ -1,10 +1,43 @@
 # BrowserID::Rails
 
-This gem provides a simple authentication structure to a Rails application
-based on Mozilla's BrowserID protocol and Persona service. Users are uniquely
-authenticated by email address using public-key cryptography. The advantage of
-this is that the rails application does not need to worry about storing or
-securing user passwords.
+This gem provides a lightweight single-sign-on authentication structure to a
+Rails application based on
+[Mozilla's Persona service](https://login.persona.org/about). Persona
+authenticates clients uniquely by their email address using the BrowserID
+protocol, without exposing clients' browsing behaviors to the identity provider.
+This also frees the application from needing to securely handle and store user
+credentials.
+
+## Overview
+
+BrowserID affords a very easy SSO experience for clients. A simplified version
+of the authentication flow goes like this:
+
+1. The user clicks a login link on the site.
+2. A pop-up window directs the user to authenticate with their identity
+   provider. This will either be their email provider or Mozilla's fall-back
+   Persona service.
+3. If the authentication is successful, the browser acquires a certificate
+   proving that the client owns the email address in question. This only needs
+   to be done once for an email address across any number of domains; after
+   that the user can just click a button to use that address to authenticate.
+4. The browser then uses the certificate to sign an authentication assertion
+   for the site (given by the `audience` parameter).
+5. The browser POSTs the signed assertion to a session creation URL for
+   verification.  If the assertion is valid, the authenticated email is stored
+   in the client's session and the page is reloaded.
+
+At this point, the `browserid_email` method will return the stored email
+address, and `current_user` will look up the authenticated user model. See below
+for more detailed documentation of the available controller and helper methods.
+
+Logging out is also straightforward:
+
+1. The (authenticated) user clicks a logout link on the site.
+2. The browser clears its stored assertion for the site and POSTs a
+   request to the server to clear its login state.
+3. The server removes the authenticated email stored in the client's session
+   and reloads the page.
 
 ## Installation
 
@@ -42,8 +75,8 @@ Configuration settings are properties of `config.browserid`.
   assertions. The default is `:persona`, which sends the request to Mozilla's
   Persona verification service. In the future, `:local` will enable local
   verification code. Alternately, this configuration option may be set to any
-  class which responds to `#verify(assertion)` with the verified email and
-  identity provider on success and raises an error on failure.
+  object which responds to `#verify(assertion, audience)` with the verified
+  email and identity provider on success and raises an error on failure.
 * `audience` - The BrowserID audience to authenticate to. This should consist
   of a URI string containing the scheme (protocol), authority, and port of the
   service (e.g., `"https://app.example.com:443"`). By default, the audience is
@@ -58,6 +91,14 @@ the associated paths and default link text. They have the following properties:
 * `text` - The default text to give login and logout links.
 * `path` - The target to give links and the path to `POST` authentication
            requests to. Defaults to `"/login"` and `"/logout"` respectively.
+
+So, if you wanted the application to use 'signin' and 'signout' instead, you
+could do the following:
+
+    config.browserid.login.text  = "Sign-in"
+    config.browserid.login.path  = '/signin'
+    config.browserid.logout.text = "Sign-out"
+    config.browserid.logout.path = '/signout'
 
 ### Controller Integration
 
@@ -94,8 +135,6 @@ Implementing the required methods for `SessionsController` is straightforward:
       logout_browserid
       head :ok
     end
-
-TODO: write generator to create routes and session controller
 
 ### Layout Integration
 
@@ -135,8 +174,6 @@ To add login and logout links to the site, use the `login_link` and
 The coffeescript asset adds on-click handlers to the links which trigger the
 Persona code to request new assertions or destroy existing ones.
 
-TODO: include Persona branding assets
-
 ## Contributing
 
 1. Fork it
@@ -144,3 +181,11 @@ TODO: include Persona branding assets
 3. Commit your changes (`git commit -am 'Added some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Future Work
+
+* In the future, it would be nice to have a generator to create routes and
+  session controller skeletons. This would simplify setup and integration with
+  new apps quite a bit.
+* Another to-do item is to incorporate the Persona branding assets and add more
+  helpers for generating login buttons.
