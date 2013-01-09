@@ -10,8 +10,16 @@ Gem::Specification.new do |gem|
 
   gem.authors       = ["Greg Look"]
   gem.email         = ["greg@mvxcvi.com"]
-  gem.summary       = %q{Rails authentication framework using Mozilla Persona and the BrowserID protocol.}
-  #gem.description   = %q{Rails authentication framework using Mozilla Persona/BrowserID}
+  gem.summary       = %q{Lightweight Rails authentication framework using the BrowserID protocol.}
+  gem.description   = <<-EOF
+    This gem provides a lightweight single-sign-on authentication framework to
+    a Rails application based on Mozilla's Persona service (see:
+    https://login.persona.org/about). Persona identifies users by email address
+    and authenticates them using the BrowserID protocol. This lets a client
+    prove they own an email address without exposing their browsing behaviors to
+    the identity provider. This also frees the application from needing to
+    securely handle and store user credentials.
+  EOF
 
   gem.files         = Dir["{app,lib,vendor}/**/*"] + ["LICENSE", "README.md"]
   gem.test_files    = gem.files.grep(%r{^spec/})
