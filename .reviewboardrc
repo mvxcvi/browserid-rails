@@ -1,9 +1,0 @@
-# Runtime configuration for ReviewBoard
-# vim: ft=python
-
-REVIEWBOARD_URL = "http://reviews.mvxcvi.com"
-TARGET_GROUPS = "hive"
-
-REPOSITORY = "browserid-rails"
-BRANCH = "master"
-GUESS_FIELDS = 1

@@ -1,8 +1,10 @@
 # vim: ft=conf
 
-# Ignore bundler config
-.bundle
+# Ignore development environment files
 Gemfile.lock
+.bundle
+.reviewboardrc
+.rvmrc
 
 # Ignore compiled gems
 pkg
