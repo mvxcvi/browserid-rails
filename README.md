@@ -136,6 +136,20 @@ Implementing the required methods for `SessionsController` is straightforward:
       head :ok
     end
 
+### Testing with RSpec
+
+To test your controllers with RSpec, call the `login_browserid` method in a `before(:each)` block.
+
+    describe MyController do
+      before(:each) do
+        controller.login_browserid "test@example.com"
+      end
+
+      it "does something only when the user is authenticated"
+        get "someting"
+      end
+    end
+
 ### Layout Integration
 
 The BrowserID javascript library needs to be loaded on your application pages.
