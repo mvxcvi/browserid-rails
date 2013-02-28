@@ -124,7 +124,7 @@ describe SessionsController do
       it "sets browserid_authenticated? status" do
         User.should_receive(:find_by_email).with(authenticated_email).and_return(browserid_current_user)
 
-        controller.should be_authenticated
+        controller.should be_browserid_authenticated
       end
     end
   end
