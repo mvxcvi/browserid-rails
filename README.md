@@ -28,8 +28,9 @@ of the authentication flow goes like this:
    in the client's session and the page is reloaded.
 
 At this point, the `browserid_email` method will return the stored email
-address, and `current_user` will look up the authenticated user model. See below
-for more detailed documentation of the available controller and helper methods.
+address, and `browserid_current_user` will look up the authenticated user model.
+See below for more detailed documentation of the available controller and helper
+methods.
 
 Logging out is also straightforward:
 
@@ -106,9 +107,9 @@ The `BrowserID::Rails::Base` module makes several controller methods available
 to interact with the authentication system. To access information, use one of:
 
 * `browserid_email` - Returns the BrowserID-authenticated email address, if any.
-* `current_user` - Retrieves the model for the currently authenticated user, if
-  there is an authenticated email and a matching user exists.
-* `authenticated?` - Returns true if there is a current user.
+* `browserid_current_user` - Retrieves the model for the currently authenticated
+  user, if there is an authenticated email and a matching user exists.
+* `browserid_authenticated?` - Returns true if there is a current user.
 
 These methods are also available in views as helpers.
 
