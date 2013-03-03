@@ -1,5 +1,4 @@
-Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails)  
-to be compatible with Devise.
+Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise.
 
 # BrowserID::Rails
 
