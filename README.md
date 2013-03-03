@@ -1,3 +1,6 @@
+Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails)  
+to be compatible with Devise.
+
 # BrowserID::Rails
 
 This gem provides a lightweight single-sign-on authentication structure to a
