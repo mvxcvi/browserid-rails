@@ -73,12 +73,11 @@
 
 ### Behavior Binding ###
 
-jQuery ->
-  $('.browserid_login').click ->
+$ ->
+  $(document).on 'click', '.browserid_login', ->
     navigator.id.request()
     false
 
-jQuery ->
-  $('.browserid_logout').click ->
+  $(document).on 'click', '.browserid_logout', ->
     navigator.id.logout()
     false

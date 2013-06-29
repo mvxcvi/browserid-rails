@@ -1,4 +1,4 @@
-Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise.
+Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise so these two gems cound be used together. This is not browserid integration for devise, for that check out [devise-browserid](https://github.com/ringe/devise-browserid).
 
 # BrowserID::Rails
 
@@ -46,7 +46,7 @@ Logging out is also straightforward:
 
 Add this line to your application's Gemfile:
 
-    gem 'browserid-rails'
+    gem 'browserid-auth-rails'
 
 And then execute:
 
@@ -54,7 +54,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install browserid-rails
+    $ gem install browserid-auth-rails
 
 ## Usage
 
