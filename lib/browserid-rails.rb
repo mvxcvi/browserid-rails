@@ -32,6 +32,10 @@ module BrowserID
         end
       end
 
+      initializer "browserid-auth-rails.assets.precompile" do |app|
+        app.config.assets.precompile += %w( browserid.js )
+      end
+
       # Mix in the controller and view helper methods.
       config.before_initialize do
         ActionController::Base.send :include, BrowserID::Rails::Base

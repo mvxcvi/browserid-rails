@@ -1,4 +1,4 @@
-Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise so these two gems cound be used together. This is not browserid integration for devise, for that check out [devise-browserid](https://github.com/ringe/devise-browserid).
+Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise so these two gems could be used together. This is not browserid integration for devise, if you need that check out [devise-browserid](https://github.com/ringe/devise-browserid).
 
 # BrowserID::Rails
 

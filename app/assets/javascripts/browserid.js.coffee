@@ -1,3 +1,4 @@
+#= require jquery
 # BrowserID javascript functions
 
 @browserid = browserid =
