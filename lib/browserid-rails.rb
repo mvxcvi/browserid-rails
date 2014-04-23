@@ -1,3 +1,4 @@
+require 'jquery-rails'
 require 'browserid/rails/base'
 require 'browserid/rails/helpers'
 require 'browserid/rails/version'
