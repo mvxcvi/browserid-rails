@@ -13,7 +13,7 @@ module BrowserID
       #
       # base - The Class this module is being included in.
       def self.included(base)
-        base.send :helper_method, :browserid_config, :browserid_email, :current_user, :authenticated?
+        base.send :helper_method, :browserid_config, :browserid_email, :browserid_current_user, :browserid_authenticated?
       end
 
       # Internal: Gets the application configuration for this gem.
@@ -39,17 +39,17 @@ module BrowserID
       # config settings, which default to `User` and `email`.
       #
       # Returns the current authenticated user, or nil if no user exists.
-      def current_user
+      def browserid_current_user
         if browserid_email.nil?
           nil
-        elsif @current_user
-          @current_user
+        elsif @browserid_current_user
+          @browserid_current_user
         else
           config = browserid_config
           user_model = config.user_model.constantize
           find_method = "find_by_#{config.email_field}".intern
 
-          @current_user = user_model.send find_method, browserid_email
+          @browserid_current_user = user_model.send find_method, browserid_email
         end
       end
 
@@ -57,8 +57,8 @@ module BrowserID
       # registered User.
       #
       # Returns true if the client is authenticated and registered.
-      def authenticated?
-        !current_user.nil?
+      def browserid_authenticated?
+        !browserid_current_user.nil?
       end
 
 

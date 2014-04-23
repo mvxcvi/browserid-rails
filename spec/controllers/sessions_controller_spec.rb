@@ -35,39 +35,39 @@ describe SessionsController do
     end
   end
 
-  describe "#current_user" do
+  describe "#browserid_current_user" do
     context "when not authenticated" do
       it "returns nil" do
-        controller.current_user.should be_nil
+        controller.browserid_current_user.should be_nil
       end
     end
 
     context "when authenticated" do
       before do
         controller.login_browserid(authenticated_email)
-        User.should_receive(:find_by_email).with(authenticated_email).and_return(current_user)
+        User.should_receive(:find_by_email).with(authenticated_email).and_return(browserid_current_user)
       end
 
       it "returns the current user" do
-        controller.current_user.should be(current_user)
-        controller.current_user.should be(current_user) # test memoization
+        controller.browserid_current_user.should be(browserid_current_user)
+        controller.browserid_current_user.should be(browserid_current_user) # test memoization
       end
     end
 
     context "with configured model and properties" do
       class Employee; end
-      let(:current_user) { Employee.new }
+      let(:browserid_current_user) { Employee.new }
 
       before do
         browserid_config.user_model = 'Employee'
         browserid_config.email_field = :address
 
         controller.login_browserid(authenticated_email)
-        Employee.should_receive(:find_by_address).with(authenticated_email).and_return(current_user)
+        Employee.should_receive(:find_by_address).with(authenticated_email).and_return(browserid_current_user)
       end
 
       it "returns the current user" do
-        controller.current_user.should be(current_user)
+        controller.browserid_current_user.should be(browserid_current_user)
       end
     end
   end
@@ -121,10 +121,10 @@ describe SessionsController do
         controller.browserid_email.should eq(authenticated_email)
       end
 
-      it "sets authenticated? status" do
-        User.should_receive(:find_by_email).with(authenticated_email).and_return(current_user)
+      it "sets browserid_authenticated? status" do
+        User.should_receive(:find_by_email).with(authenticated_email).and_return(browserid_current_user)
 
-        controller.should be_authenticated
+        controller.should be_browserid_authenticated
       end
     end
   end

@@ -4,12 +4,12 @@
 require File.expand_path('../lib/browserid/rails/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name          = "browserid-rails"
+  gem.name          = "browserid-auth-rails"
   gem.version       = BrowserID::Rails::VERSION
-  gem.homepage      = "https://github.com/mvxcvi/browserid-rails"
+  gem.homepage      = "https://github.com/alexkravets/browserid-auth-rails"
 
-  gem.authors       = ["Greg Look"]
-  gem.email         = ["greg@mvxcvi.com"]
+  gem.authors       = ["Greg Look", "Alex Kravets"]
+  gem.email         = ["alex@slatestudio.com"]
   gem.summary       = %q{Lightweight Rails authentication framework using the BrowserID protocol.}
   gem.description   = <<-EOF
     This gem provides a lightweight single-sign-on authentication framework to
@@ -25,9 +25,9 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^spec/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency 'railties', '~> 3.2'
+  gem.add_dependency 'railties', '>= 3.2'
 
-  gem.add_development_dependency 'rspec-rails', '~> 2.11'
+  gem.add_development_dependency 'rspec-rails', '>= 2.11'
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'tzinfo' # required for active-support
 

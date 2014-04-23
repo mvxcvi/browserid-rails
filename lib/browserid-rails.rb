@@ -1,3 +1,4 @@
+require 'jquery-rails'
 require 'browserid/rails/base'
 require 'browserid/rails/helpers'
 require 'browserid/rails/version'
@@ -30,6 +31,10 @@ module BrowserID
             link.path = '/logout'
           end
         end
+      end
+
+      initializer "browserid-auth-rails.assets.precompile" do |app|
+        app.config.assets.precompile += %w( browserid.js )
       end
 
       # Mix in the controller and view helper methods.

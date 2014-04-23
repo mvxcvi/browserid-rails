@@ -1,3 +1,5 @@
+Modified fork of [https://github.com/mvxcvi/browserid-rails](https://github.com/mvxcvi/browserid-rails) to be compatible with Devise so these two gems could be used together. This is not browserid integration for devise, if you need that check out [devise-browserid](https://github.com/ringe/devise-browserid).
+
 # BrowserID::Rails
 
 This gem provides a lightweight single-sign-on authentication structure to a
@@ -28,8 +30,9 @@ of the authentication flow goes like this:
    in the client's session and the page is reloaded.
 
 At this point, the `browserid_email` method will return the stored email
-address, and `current_user` will look up the authenticated user model. See below
-for more detailed documentation of the available controller and helper methods.
+address, and `browserid_current_user` will look up the authenticated user model.
+See below for more detailed documentation of the available controller and helper
+methods.
 
 Logging out is also straightforward:
 
@@ -43,7 +46,7 @@ Logging out is also straightforward:
 
 Add this line to your application's Gemfile:
 
-    gem 'browserid-rails'
+    gem 'browserid-auth-rails'
 
 And then execute:
 
@@ -51,7 +54,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install browserid-rails
+    $ gem install browserid-auth-rails
 
 ## Usage
 
@@ -106,9 +109,9 @@ The `BrowserID::Rails::Base` module makes several controller methods available
 to interact with the authentication system. To access information, use one of:
 
 * `browserid_email` - Returns the BrowserID-authenticated email address, if any.
-* `current_user` - Retrieves the model for the currently authenticated user, if
-  there is an authenticated email and a matching user exists.
-* `authenticated?` - Returns true if there is a current user.
+* `browserid_current_user` - Retrieves the model for the currently authenticated
+  user, if there is an authenticated email and a matching user exists.
+* `browserid_authenticated?` - Returns true if there is a current user.
 
 These methods are also available in views as helpers.
 
